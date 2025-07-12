@@ -1,0 +1,41 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradient Layer 1 -->
+    <radialGradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="27%" style="stop-color:rgb(76,110,207); stop-opacity:0" />
+      <stop offset="51%" style="stop-color:rgb(76,110,207); stop-opacity:0.33" />
+      <stop offset="69%" style="stop-color:rgb(89,88,179); stop-opacity:0.58" />
+      <stop offset="100%" style="stop-color:rgb(89,78,183); stop-opacity:1" />
+    </radialGradient>
+    
+    <!-- Gradient Layer 2 -->
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="30%" style="stop-color:rgb(46,244,205); stop-opacity:0" />
+      <stop offset="60%" style="stop-color:rgb(198,171,203); stop-opacity:0" />
+      <stop offset="100%" style="stop-color:rgb(246,148,203); stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Gradient Layer 3 -->
+    <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%" gradientTransform="rotate(80)">
+      <stop offset="0%" style="stop-color:rgb(246,148,203); stop-opacity:0" />
+      <stop offset="70%" style="stop-color:rgb(70,232,205); stop-opacity:0.1" />
+      <stop offset="100%" style="stop-color:rgb(46,244,205); stop-opacity:1" />
+    </linearGradient>
+
+    <!-- Gradient Layer 4 -->
+    <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%" gradientTransform="rotate(45)">
+      <stop offset="0%" style="stop-color:rgb(46,244,205); stop-opacity:1" />
+      <stop offset="50%" style="stop-color:rgb(76,110,207); stop-opacity:0.2" />
+      <stop offset="60%" style="stop-color:rgb(76,110,207); stop-opacity:0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Circles with gradient fills to approximate layered gradient effects -->
+  <circle cx="150" cy="150" r="150" fill="url(#grad1)" />
+  <circle cx="150" cy="150" r="150" fill="url(#grad2)" />
+  <circle cx="150" cy="150" r="150" fill="url(#grad3)" />
+  <circle cx="150" cy="150" r="150" fill="url(#grad4)" />
+
+  <!-- Soft shadow to approximate the box-shadow -->
+  <circle cx="150" cy="150" r="150" fill="none" stroke="rgba(0, 0, 0, 0.1)" stroke-width="15" />
+</svg>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+    <title>Form</title>
+  </head>
+  <body>
+    <form class="form" name="contact" method="POST" data-netlify="true">
+      <div class="form-inner">
+        <input type="hidden" name="form-name" value="contact" />
+
+        <div class="form-collection">
+          <div class="form-item">
+            <input
+              class="form-input"
+              name="name"
+              id="form-name"
+              type="text"
+              placeholder="Your name"
+            />
+          </div>
+
+          <div class="form-item">
+            <input
+              class="form-input"
+              name="email"
+              id="form-email"
+              type="email"
+              placeholder="Your email"
+            />
+          </div>
+        </div>
+
+        <div class="form-item form-item--textarea">
+          <textarea
+            class="form-textarea"
+            name="subject"
+            id="form-subject"
+            placeholder="Tell me about your stuff"></textarea>
+        </div>
+
+        <button class="form-submit-button" type="submit">Send</button>
+      </div>
+    </form>
+  </body>
+</html>

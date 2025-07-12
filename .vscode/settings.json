@@ -1,0 +1,22 @@
+{
+  "eslint.useFlatConfig": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit"
+  },
+  // "eslint.validate": ["javascript", "javascriptreact", "typescript", "astro"],
+  "stylelint.validate": [
+    "css",
+    "postcss",
+    "scss",
+    "vue",
+    "astro"
+  ],
+  "stylelint.snippet": [
+    "css",
+    "postcss",
+    "scss",
+    "vue",
+    "astro"
+  ]
+}

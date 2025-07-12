@@ -1,0 +1,212 @@
+---
+import LeadButton from '@/components/LeadButton.astro';
+---
+
+<section class="c-section hero u-grid">
+  <header class="header">
+    <h1 class="title">eco digital commerce expert</h1>
+    <h2 class="subtitle" data-animation="fadeUp">
+      <span class="circle u-desktop"></span>
+      for mindful businesses
+    </h2>
+    <p class="desc" data-animation="fadeUp" data-delay="0.4">
+      let&apos;s create digital commerce in line with our sustainability values
+    </p>
+  </header>
+
+  <div class="button-container">
+    <LeadButton data-animation="fadeUp" data-delay="0.2" data-scroller="#services">
+      services
+    </LeadButton>
+    <LeadButton data-animation="fadeUp" data-delay="0.4" data-scroller="#contact">
+      contact
+    </LeadButton>
+  </div>
+
+  <!-- <Image class="image" src={HeroImage} alt="hero" /> -->
+  <svg
+    class="image"
+    width="483"
+    height="483"
+    viewBox="0 0 483 483"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M241.5 372.836C169.163 372.836 110.313 313.964 110.313 241.6C110.313 169.236 169.163 110.364 241.5 110.364C313.837 110.364 372.687 169.236 372.687 241.6C372.687 313.964 313.837 372.836 241.5 372.836ZM241.5 118.392C173.592 118.392 118.338 173.662 118.338 241.6C118.338 309.538 173.592 364.808 241.5 364.808C309.408 364.808 364.662 309.533 364.662 241.6C364.662 173.667 309.408 118.392 241.5 118.392Z"
+      fill="currentColor"></path>
+    <path d="M245.513 0.759995H237.488V57.5715H245.513V0.759995Z" fill="currentColor"></path>
+    <path d="M57.5349 237.586H0.75V245.614H57.5349V237.586Z" fill="currentColor"></path>
+    <path d="M482.25 237.586H425.465V245.614H482.25V237.586Z" fill="currentColor"></path>
+    <path d="M245.513 425.629H237.488V482.44H245.513V425.629Z" fill="currentColor"></path>
+    <path
+      d="M414.568 74.1416L408.893 68.465L368.741 108.633L374.415 114.309L414.568 74.1416Z"
+      fill="currentColor"></path>
+    <path
+      d="M114.262 108.624L74.1095 68.4566L68.435 74.1332L108.588 114.301L114.262 108.624Z"
+      fill="currentColor"></path>
+    <path
+      d="M414.544 409.059L374.393 368.881L368.718 374.557L408.869 414.734L414.544 409.059Z"
+      fill="currentColor"></path>
+    <path
+      d="M114.257 374.562L108.583 368.885L68.4266 409.057L74.1011 414.733L114.257 374.562Z"
+      fill="currentColor"></path>
+    <path
+      d="M174.823 70.0446L153.076 17.5572L145.658 20.6331L167.405 73.1205L174.823 70.0446Z"
+      fill="currentColor"></path>
+    <path
+      d="M73.0881 315.724L70.0161 308.307L17.5582 330.053L20.6302 337.469L73.0881 315.724Z"
+      fill="currentColor"></path>
+    <path
+      d="M465.455 153.122L462.383 145.705L409.925 167.451L412.997 174.867L465.455 153.122Z"
+      fill="currentColor"></path>
+    <path
+      d="M337.368 462.562L315.627 410.075L308.208 413.15L329.95 465.638L337.368 462.562Z"
+      fill="currentColor"></path>
+    <path
+      d="M337.335 20.617L329.927 17.5443L308.176 70.021L315.584 73.0937L337.335 20.617Z"
+      fill="currentColor"></path>
+    <path
+      d="M73.073 167.469L20.6094 145.729L17.5383 153.146L70.0018 174.886L73.073 167.469Z"
+      fill="currentColor"></path>
+    <path
+      d="M465.483 330.086L413.021 308.338L409.949 315.754L462.411 337.502L465.483 330.086Z"
+      fill="currentColor"></path>
+    <path
+      d="M174.788 413.146L167.369 410.072L145.641 462.561L153.06 465.634L174.788 413.146Z"
+      fill="currentColor"></path>
+  </svg>
+</section>
+
+<style lang="postcss">
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 680px;
+
+  /* grid-template-rows: repeat(8, 1fr);
+  height: calc(80dvh - 80px); */
+  padding-top: 24px;
+  padding-bottom: 16px;
+
+  @media (--screen-tb-max) {
+    display: flex !important;
+    justify-content: flex-start;
+    height: 66.666vh;
+    min-height: 420px;
+    padding-bottom: 32px;
+  }
+
+  @media (--screen-xs-max) {
+    height: 50vh;
+  }
+}
+
+.header {
+  grid-column: 1 / 7;
+}
+
+.title {
+  margin-left: -2px;
+  font-size: 96px;
+  line-height: 1;
+  letter-spacing: calc(1em * 0.03);
+
+  @media (--screen-mc-max) {
+    font-size: 80px;
+  }
+
+  @media (--screen-tb-max) {
+    margin-bottom: 24px;
+    font-size: 64px;
+  }
+
+  span {
+    margin-left: 0.666em;
+  }
+}
+
+.subtitle {
+  position: relative;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  font-size: var(--font-size-xl);
+  line-height: 1.2;
+  letter-spacing: calc(1em * 0.03);
+
+  @media (--screen-mc-max) {
+    font-size: var(--font-size-xl-mobile);
+  }
+
+  @media (--screen-tb-max) {
+    width: 100%;
+    font-size: var(--font-size-l-mobile);
+  }
+
+  @media (--screen-xs-max) {
+    font-size: var(--font-size-m);
+  }
+}
+
+.desc {
+  margin-bottom: 0;
+  font-size: var(--font-size-l);
+
+  @media (--screen-mc-max) {
+    font-size: var(--font-size-l-mobile);
+  }
+
+  @media (--screen-tb-max) {
+    width: 66.666%;
+    margin-bottom: 16px;
+    font-size: var(--font-size-m);
+  }
+
+  @media (--screen-xs-max) {
+    font-size: 1rem;
+  }
+}
+
+.image {
+  position: absolute;
+  right: 8vw;
+  width: 32vw;
+  height: auto;
+
+  @media (--screen-tb-max) {
+    top: 14vh;
+
+    /* right: auto;
+    bottom: 20vh;
+    left: var(--grid-gutter-space-half);
+    width: 28vw; */
+  }
+}
+
+.button-container {
+  display: flex;
+  grid-row: 3;
+  grid-column: 1 / 10;
+  gap: 40px;
+  width: 100%;
+  margin-top: 160px;
+
+  > * {
+    flex-shrink: 0;
+  }
+
+  /* align-items: center;
+  align-self: flex-start; */
+
+  @media (--screen-tb-max) {
+    grid-column: 1 / 9;
+    margin-top: auto;
+  }
+
+  @media (--screen-xs-max) {
+    grid-column: 1 / 5;
+  }
+}
+</style>

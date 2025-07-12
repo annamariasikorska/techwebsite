@@ -1,0 +1,184 @@
+<section class="c-section services u-grid" id="services">
+  <header class="c-section__header">
+    <!-- <h6 class="c-section__topic">/ topic</h6> -->
+    <h2 class="c-section__title" data-splitting="true" data-stagger="0.03">
+      <strong>/</strong> services
+    </h2>
+  </header>
+
+  <div class="col">
+    <div class="item" data-animation="fadeUp" data-delay="0.2">
+      <h3 class="title">Brand Strategy</h3>
+      <ul class="desc">
+        <li>Sustainable positioning</li>
+        <li>Green business strategy</li>
+        <li>Environmental impact assesments</li>
+      </ul>
+    </div>
+
+    <div class="item" data-animation="fadeUp" data-delay="0.3">
+      <h3 class="title">Digital commerce<br />content</h3>
+      <ul class="desc">
+        <li>Product Page designs</li>
+        <li>Creative photography</li>
+        <li>SEO</li>
+        <li>Optimized Digital Advertising</li>
+        <li>Social Media Recommendations</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="item" data-animation="fadeUp" data-delay="0.4">
+      <h3 class="title">Data-Driven Sustainability<br />Consulting</h3>
+      <ul class="desc">
+        <li>Sustainability Scorecards</li>
+        <li>Conversion Rate Optimization with Eco-Lens</li>
+        <li>Green Analytics & Insights</li>
+      </ul>
+    </div>
+
+    <div class="item" data-animation="fadeUp" data-delay="0.5">
+      <h3 class="title">Carbon Footprint tracking & Reporting</h3>
+      <ul class="desc">
+        <li>Sustainability Analytics</li>
+        <li>Annual Impact Reports</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="item" data-animation="fadeUp" data-delay="0.6">
+      <h3 class="title">Website Development</h3>
+      <ul class="desc">
+        <li>Low-Carbon Web Design</li>
+        <li>Clean Code</li>
+        <li>Sustainable hosting</li>
+      </ul>
+    </div>
+    <div class="item" data-animation="fadeUp" data-delay="0.7">
+      <h3 class="title">Shipping & Logistics Optimization</h3>
+      <ul class="desc">
+        <li>Sustainable Shipping Options</li>
+        <li>Supply Chain Optimization</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style lang="postcss">
+.services {
+  grid-template-rows: max-content;
+  color: var(--colour-font);
+  background-color: var(--colour-primary);
+  border-bottom: none;
+
+  .c-section {
+    &__topic,
+    &__title {
+      &::selection {
+        color: var(--colour-font);
+        text-shadow: none;
+        background: var(--colour-contrast);
+      }
+
+      &::-webkit-selection {
+        color: var(--colour-font);
+        text-shadow: none;
+        background: var(--colour-contrast);
+      }
+    }
+  }
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--grid-gutter-space);
+  margin-top: 80px;
+
+  &:first-of-type {
+    grid-column: 1 / 4;
+  }
+
+  &:nth-of-type(2) {
+    grid-column: 4 / 7;
+  }
+
+  &:nth-of-type(3) {
+    grid-column: 7 / 10;
+  }
+
+  @media (--screen-tb-max) {
+    grid-column: 1 / 9 !important;
+    gap: 0;
+    margin-top: 0;
+  }
+
+  @media (--screen-xs-max) {
+    grid-column: 1 / 5 !important;
+  }
+}
+
+.title {
+  position: relative;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+
+  &::selection {
+    color: var(--colour-font);
+    text-shadow: none;
+    background: var(--colour-contrast);
+  }
+
+  &::-webkit-selection {
+    color: var(--colour-font);
+    text-shadow: none;
+    background: var(--colour-contrast);
+  }
+
+  &::before {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 6px;
+    content: "";
+    background-color: var(--colour-font);
+    transition: width 0.4s;
+
+    body.is-mobile & {
+      width: 100%;
+    }
+  }
+}
+
+.item {
+  &.is-passed {
+    /* stylelint-disable-next-line selector-class-pattern */
+    .title::before {
+      width: 100%;
+    }
+  }
+
+  @media (--screen-tb-max) {
+    margin-bottom: var(--space-s);
+  }
+}
+
+.desc {
+  > * {
+    &::selection {
+      color: var(--colour-font);
+      text-shadow: none;
+      background: var(--colour-contrast);
+    }
+
+    &::-webkit-selection {
+      color: var(--colour-font);
+      text-shadow: none;
+      background: var(--colour-contrast);
+    }
+  }
+}
+</style>

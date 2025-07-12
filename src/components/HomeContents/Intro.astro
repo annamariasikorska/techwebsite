@@ -1,0 +1,205 @@
+---
+import LeadButton from '@/components/LeadButton.astro';
+---
+
+<section class="c-section intro u-grid">
+  <article class="article-what">
+    <header class="c-section__header">
+      <h2 class="c-section__title" data-splitting="true" data-stagger="0.03">
+        <strong>/</strong> what is eco digital commerce?
+      </h2>
+    </header>
+
+    <div class="content">
+      <p class="text" data-animation="fadeIn">
+        Eco digital commerce refers to online business practices that prioritize environmental and
+        social responsibility, aiming to minimize carbon footprints, reduce waste, ensure your
+        consumers they make a thoughful purchases, use eco-friendly packaging, promote ethical
+        sourcing throughout the supply chain, provide excellent workers conditions and effectively
+        communicate these values in content to engage conscious audience.
+      </p>
+    </div>
+
+    <div class="button-container" data-animation="fadeUp">
+      <LeadButton href="/articles/sustainable-digital-commerce-manifesto/">
+        Read my sustainable<br />digital commerce manifesto.
+      </LeadButton>
+    </div>
+  </article>
+
+  <article class="article-why" data-animation="fadeIn">
+    <header class="c-section__header">
+      <h2 class="c-section__title" data-splitting="true" data-stagger="0.03">
+        <strong>/</strong> why does it matter?
+      </h2>
+    </header>
+
+    <div class="c-section__content content">
+      <div class="item" data-animation="fadeUp">
+        <span class="number">1</span>
+        Businesses that prioritize sustainability and transparently communicate these values build stronger
+        relationships with consumers who increasingly prefer brands aligned with their ethical standards.
+        This loyalty can lead to higher customer retention and positive word-of-mouth.
+      </div>
+
+      <div class="item" data-animation="fadeUp" data-delay="0.2">
+        <span class="number">2</span>
+        Embracing sustainable practices sets businesses apart in a crowded market, attracting eco-conscious
+        consumers and future-proofing the brand against stricter environmental regulations, giving a
+        significant competitive edge.
+      </div>
+
+      <div class="item" data-animation="fadeUp" data-delay="0.4">
+        <span class="number">3</span>
+        Sustainable ecommerce practices, like minimizing packaging waste and lowering emissions, contribute
+        directly to less pollution, resource conservation, and biodiversity protection, benefiting the
+        planet and future generations.
+      </div>
+    </div>
+  </article>
+</section>
+
+<style lang="postcss">
+.intro {
+  padding-bottom: 0;
+
+  @media (--screen-tb-max) {
+    padding-bottom: 40px;
+  }
+
+  .c-section {
+    &__title {
+      max-width: none;
+      margin-bottom: 24px;
+
+      @media (--screen-tb-max) {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.header {
+  grid-column: 1 / 3;
+}
+
+.text {
+  align-self: flex-end;
+  max-width: 100%;
+  margin-bottom: 0;
+  font-size: var(--font-size-l);
+  line-height: 1.2;
+
+  @media (--screen-mc-max) {
+    font-size: var(--font-size-m);
+  }
+
+  @media (--screen-tb-max) {
+    margin-bottom: 16px;
+  }
+
+  @media (--screen-xs-max) {
+    font-size: var(--font-size-l-mobile);
+  }
+}
+
+.content {
+  display: flex;
+  grid-column: 5 / 13;
+  gap: 24px;
+  max-width: 800px;
+
+  @media (--screen-tb-max) {
+    grid-column: 1 / 9;
+  }
+
+  @media (--screen-xs-max) {
+    grid-column: 1 / 5;
+  }
+}
+
+.item {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  font-size: var(--font-size-l);
+
+  @media (--screen-mc-max) {
+    font-size: var(--font-size-m);
+  }
+
+  @media (--screen-xs-max) {
+    font-size: var(--font-size-l-mobile);
+  }
+}
+
+.number {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 0.6em;
+  font-size: 120px;
+  line-height: 0.9;
+  text-align: center;
+
+  @media (--screen-mc-max) {
+    font-size: 104px;
+  }
+
+  @media (--screen-xs-max) {
+    font-size: 96px;
+  }
+}
+
+.button-container {
+  align-self: flex-end;
+  margin-top: 40px;
+  
+  @media (--screen-tb-max) {
+    margin-top: 16px;
+  }
+}
+
+.article-what {
+  display: flex;
+  flex-direction: column;
+  grid-column: 1 / 5;
+
+  @media (--screen-sm-max) {
+    grid-column: 1 / 4;
+  }
+}
+
+.article-why {
+  position: relative;
+  grid-column: 7 / 12;
+  padding-bottom: 16px;
+  margin-top: 15vh;
+  opacity: 1;
+
+  @media (--screen-sm-max) {
+    grid-column: 5 / 9;
+  }
+
+  @media (--screen-tb-max) {
+    padding-bottom: 4px;
+    margin-top: 38px;
+  }
+
+  /* &::before {
+    position: absolute;
+    bottom: 0;
+    left: calc(var(--grid-gutter-space) * -1);
+    width: 1px;
+    height: 0;
+    content: "";
+    background-color: var(--colour-contrast);
+    transition: height 0.4s;
+  }
+
+  &.is-passed {
+    &::before {
+      height: calc(100% - 56px);
+    }
+  } */
+}
+</style>

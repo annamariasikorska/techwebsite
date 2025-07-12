@@ -1,0 +1,64 @@
+---
+import LeadButton from '@/components/LeadButton.astro';
+import ArticleList from '@/components/ArticleList.astro';
+---
+
+<section class="c-section articles">
+  <header class="c-section__header header">
+    <h2 class="c-section__title" data-splitting="true" data-stagger="0.03">
+      <strong>/</strong> latest articles
+    </h2>
+    <div class="button-container">
+      <LeadButton href="/articles">view all</LeadButton>
+    </div>
+  </header>
+
+  <div class="content">
+    <ArticleList size={5} />
+  </div>
+</section>
+
+<style lang="postcss">
+  .articles {
+    position: relative;
+    display: block;
+    align-items: flex-start;
+    height: auto;
+    min-height: 0;
+    padding: 0;
+
+    .c-section {
+      &__title {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: var(--space-xs) var(--grid-gutter-space-half);
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--colour-contrast);
+
+    @media (--screen-tb-max) {
+      width: 100%;
+      padding: var(--space-xs) var(--grid-gutter-space-s);
+      border-bottom: 1px solid var(--colour-contrast);
+    }
+  }
+
+  .button-container {
+    align-self: flex-end;
+  }
+
+  .content {
+    grid-column: 5 / 13;
+
+    @media (--screen-tb-max) {
+      border-left: none;
+    }
+  }
+</style>

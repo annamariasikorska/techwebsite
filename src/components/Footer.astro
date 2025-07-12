@@ -1,0 +1,484 @@
+---
+// import BookingButton from '@/components/BookingButton.astro';
+// import LeadButton from '@/components/LeadButton.astro';
+
+const today = new Date();
+---
+
+<script>
+  import { gsap } from 'gsap';
+
+  class EmailElement extends HTMLElement {
+    constructor() {
+      super();
+      this.appendEmailElement();
+    }
+
+    appendEmailElement() {
+      const a = document.createElement('a');
+      a.className = 'u-text-link contact-link';
+      a.href = 'mailto:anna@edce.space';
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = 'anna@edce.space';
+      this.textContent = 'email: ';
+      this.append(a);
+    }
+  }
+
+  class FormElement extends HTMLElement {
+    form = this.querySelector<HTMLFormElement>('form');
+    formContainer = this.querySelector<HTMLElement>('.form-container');
+    submitButton = this.querySelector<HTMLButtonElement>('[type="submit"]');
+    message = this.querySelector<HTMLElement>('.form-message');
+    botField = this.querySelector<HTMLInputElement>('input[name="bot-field"]');
+
+    constructor() {
+      super();
+
+      if (this.form) {
+        this.form.addEventListener('submit', this.handleSubmit);
+      }
+    }
+
+    disconnectedCallback() {
+      if (this.form) {
+        this.form.removeEventListener('submit', this.handleSubmit);
+      }
+    }
+
+    handleSubmit = (event: SubmitEvent) => {
+      event.preventDefault();
+
+      const myForm = event.target as HTMLFormElement;
+
+      if (this.botField?.value) {
+        return;
+      }
+
+      if (myForm) {
+        const formData = new FormData(myForm);
+
+        // https://edce-space.netlify.app
+        // severless hack
+        fetch('/form.html', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          body: new URLSearchParams(formData).toString(),
+        })
+          .then(async () => {
+            console.log('Form successfully submitted');
+
+            if (this.message && this.formContainer) {
+              await gsap.to(this.formContainer, { autoAlpha: 0 });
+              gsap.fromTo(
+                this.message,
+                { y: 20 },
+                { autoAlpha: 1, y: 0, ease: 'power2.in', duration: 0.4 },
+              );
+            }
+          })
+          .catch(async () => {
+            if (this.message) {
+              const title = this.message.querySelector<HTMLElement>('.form-message-title');
+              const desc = this.message.querySelector<HTMLElement>('.form-message-desc');
+
+              if (title) {
+                title.textContent = 'Error has occurred';
+              }
+
+              if (desc) {
+                desc.textContent = 'Please contact me via email';
+              }
+            }
+
+            if (this.message && this.formContainer) {
+              await gsap.to(this.formContainer, { autoAlpha: 0 });
+              gsap.fromTo(
+                this.message,
+                { y: 20 },
+                { autoAlpha: 1, y: 0, ease: 'power2.in', duration: 0.4 },
+              );
+            }
+          });
+      }
+    };
+  }
+
+  customElements.define('form-element', FormElement);
+  customElements.define('email-element', EmailElement);
+</script>
+
+<footer class="footer js-footer" id="contact">
+  <div class="inner u-grid">
+    <h3 class="title" data-splitting="true" data-stagger="0.03">edce</h3>
+
+    <div class="contact">
+      <p class="contact-label" class="u-mb-text-s">drop me a message</p>
+      <div class="contact-info">
+        <div>
+          <email-element>javascript needs to be enabled to see the email address</email-element>
+        </div>
+        <a
+          class="u-text-link contact-link"
+          href="https://www.linkedin.com/in/annamariasikorska/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          LinkedIn
+        </a>
+      </div>
+      <!-- <div class="button-container">
+        <BookingButton withAnim />
+      </div> -->
+    </div>
+
+    <form-element class="form-element">
+      <div class="form-message">
+        <p class="form-message-title">Thank you for your message.</p>
+        <p class="form-message-desc">Your form submission has been received</p>
+      </div>
+      <div class="form-container">
+        <p class="contact-label">or write me a message via a contact form</p>
+
+        <!-- @ts-ignore -->
+        <form class="form" name="contact" method="POST" netlify-honeypot="“bot-field”" netlify>
+          <p class="hidden-field">
+            <label>
+              Don&apos;t fill this out if you&apos;re human: <input name="bot-field" />
+            </label>
+          </p>
+          <div class="form-inner">
+            <input type="hidden" name="form-name" value="contact" />
+
+            <div class="form-collection">
+              <div class="form-item">
+                <input class="form-input" name="name" type="text" placeholder="Your name" />
+              </div>
+
+              <div class="form-item">
+                <input class="form-input" name="email" type="email" placeholder="Your email" />
+              </div>
+            </div>
+
+            <div class="form-item form-item--textarea">
+              <textarea class="form-textarea" name="subject" placeholder="Tell me about your stuff"
+              ></textarea>
+            </div>
+
+            <button class="form-submit-button" type="submit">Send</button>
+          </div>
+        </form>
+      </div>
+    </form-element>
+  </div>
+
+  <div class="endline">
+    <div class="endline-text">
+      <p class="u-mb0">
+        This site is lightweight, meaning it needs little energy to run. It produces only
+        <span id="wcb_g" class="js-carbon carbon-text"></span> CO<sup>2</sup>.
+      </p>
+    </div>
+    <p class="copyright">
+      &copy; {today.getFullYear()} edce. All rights reserved.
+    </p>
+  </div>
+</footer>
+<!-- <script is:inline src="https://unpkg.com/website-carbon-badges@1.1.3/b.min.js" defer></script> -->
+<style>
+  .footer {
+    position: relative;
+    padding: 16px 0 0;
+    margin-top: 14px;
+    color: var(--colour-contrast);
+    border-top: 1px solid var(--colour-border);
+
+    @media (--screen-xs-max) {
+      padding: 16px 0 0;
+    }
+
+    &::before,
+    &::after {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      content: '';
+      background-color: var(--colour-contrast);
+    }
+
+    &::before {
+      top: -8px;
+      height: 1px;
+    }
+
+    &::after {
+      top: -15px;
+      height: 1px;
+    }
+  }
+
+  .inner {
+    @media (--screen-tb-max) {
+      display: block !important;
+      padding-bottom: var(--space-m);
+    }
+  }
+
+  .contact {
+    grid-row: 2 / 2;
+    grid-column: 4 / 7;
+
+    /* align-self: flex-end; */
+
+    @media (--screen-sm-max) {
+      grid-row: 2;
+      grid-column: 1 / 9;
+    }
+
+    @media (--screen-tb-max) {
+      flex-wrap: wrap;
+      margin-top: 80px;
+    }
+
+    @media (--screen-xs-max) {
+      grid-column: 1 / 5;
+    }
+  }
+
+  .contact-label {
+    font-weight: var(--font-weight-medium);
+  }
+
+  .contact-info {
+    display: flex;
+    gap: var(--grid-gutter-space);
+    align-items: flex-end;
+
+    /* padding-right: var(--grid-gutter-space); */
+    padding-bottom: var(--space-content-xs);
+
+    /* border-right: 1px solid var(--colour-border); */
+
+    @media (--screen-tb-max) {
+      flex-wrap: wrap;
+      border-right: none;
+    }
+  }
+
+  .button-container {
+    padding-bottom: var(--space-content-s);
+
+    @media (--screen-tb-max) {
+      margin-left: auto;
+    }
+  }
+
+  .endline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px var(--grid-gutter-space-half);
+    font-size: var(--font-size-m-mobile);
+    border-top: 1px solid var(--colour-border);
+
+    @media (--screen-sm-max) {
+      flex-direction: column;
+    }
+
+    @media (--screen-tb-max) {
+      flex-direction: column;
+      padding: 16px var(--grid-gutter-space-half);
+    }
+  }
+
+  .endline-text {
+    display: flex;
+    align-items: flex-start;
+
+    @media (--screen-sm-max) {
+      grid-column: 4 / 9;
+    }
+
+    @media (--screen-tb-max) {
+      font-size: var(--font-size-s);
+    }
+
+    @media (--screen-xs-max) {
+      grid-column: 1 / 5;
+    }
+  }
+
+  .carbon-text {
+    display: inline-block;
+    padding: 3px 8px;
+    color: var(--colour-font);
+    vertical-align: middle;
+    background-color: var(--colour-contrast);
+    border-radius: 24px;
+  }
+
+  .copyright {
+    margin-bottom: 0;
+
+    @media (--screen-sm-max) {
+      font-size: var(--font-size-s-mobile);
+    }
+  }
+
+  .title {
+    grid-column: 1 / 4;
+    font-size: 56px;
+    line-height: 1;
+
+    span {
+      margin-left: 0.666em;
+    }
+
+    @media (--screen-tb-max) {
+      font-size: 32px;
+    }
+  }
+
+  .form-element {
+    position: relative;
+    grid-row: 2;
+    grid-column: 7 / 12;
+    margin-bottom: 40px;
+
+    @media (--screen-sm-max) {
+      grid-row: 3;
+      grid-column: 1 / 9;
+    }
+  }
+
+  .form {
+    padding: 16px;
+    color: var(--colour-font);
+    background-color: var(--colour-primary);
+  }
+
+  .form-inner {
+    border: 1px solid var(--colour-font);
+  }
+
+  .form-item {
+    width: 100%;
+
+    /* margin-bottom: var(--space-s); */
+
+    &--textarea {
+      /* margin-bottom: 0; */
+      border-top: 1px solid var(--colour-font);
+    }
+  }
+
+  .form-collection {
+    display: flex;
+    gap: 0;
+
+    .form-item:first-child {
+      border-right: 1px solid var(--colour-font);
+    }
+  }
+
+  .form-label {
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+
+  .form-textarea {
+    display: block;
+    height: 160px;
+
+    @media (--screen-tb-max) {
+      height: 120px;
+    }
+  }
+
+  .form-input {
+    height: 56px;
+
+    @media (--screen-tb-max) {
+      height: 40px;
+    }
+  }
+
+  .form-input,
+  .form-textarea {
+    width: 100%;
+    padding: 4px 12px;
+    font-size: 28px;
+    color: var(--colour-font);
+    background-color: transparent;
+    border: none;
+
+    /* border: 1px solid var(--colour-font); */
+
+    &::placeholder {
+      color: var(--colour-font);
+    }
+
+    &:hover {
+      background-color: var(--colour-bg-contrast);
+    }
+
+    @media (--screen-tb-max) {
+      padding: 4px 8px;
+      font-size: 20px;
+    }
+  }
+
+  .form-submit-button {
+    display: block;
+    width: 100%;
+    height: 56px;
+    padding: 4px 16px;
+    margin: 0;
+    font-size: 28px;
+    font-weight: var(--font-weight-medium);
+    color: var(--colour-contrast);
+    text-align: right;
+    cursor: pointer;
+    background-color: var(--colour-font);
+    border: none;
+    border-top: 1px solid var(--colour-font);
+
+    &:hover {
+      color: var(--colour-font);
+      background-color: var(--colour-bg-contrast);
+    }
+
+    @media (--screen-tb-max) {
+      padding: 4px 12px;
+      font-size: 20px;
+    }
+  }
+
+  .form-message {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .form-message-title {
+    margin-bottom: 8px;
+    font-size: 32px;
+  }
+
+  .form-message-desc {
+    margin-bottom: 0;
+  }
+
+  .hidden-field {
+    width: 0;
+    height: 0;
+    margin: 0;
+    visibility: hidden;
+    opacity: 0;
+  }
+</style>

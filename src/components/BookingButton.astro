@@ -1,0 +1,81 @@
+---
+type Props = {
+  class?: string;
+  withAnim?: boolean;
+  small?: boolean;
+};
+
+const { class: className, withAnim, small, ...props } = Astro.props;
+---
+
+<button
+  class:list={['booking-button', className, withAnim ? 'is-anim' : '', small ? 'is-small' : '']}
+  type="button"
+  {...props}
+>
+  book a free meeting
+</button>
+
+<style>
+  @keyframes leaves {
+    0% {
+      transform: scale(1);
+    }
+
+    100% {
+      transform: scale(1.05);
+    }
+  }
+
+  .booking-button {
+    min-width: 212px;
+    height: 64px;
+    padding: 8px 24px;
+    font-family: var(--font-secondary);
+    font-size: var(--font-size-m);
+    font-weight: var(--font-weight-medium);
+    color: var(--colour-primary);
+    background-color: transparent;
+    border: 1px solid var(--colour-primary);
+    border-radius: 50%;
+
+    &::selection {
+      color: var(--colour-font);
+      text-shadow: none;
+      background: var(--colour-contrast);
+    }
+
+    &::-webkit-selection {
+      color: var(--colour-font);
+      text-shadow: none;
+      background: var(--colour-contrast);
+    }
+
+    @media (--screen-xs-max) {
+      min-width: 184px;
+      height: 48px;
+      font-size: var(--font-size-m-mobile);
+    }
+
+    &:hover {
+      color: var(--colour-font);
+      background-color: var(--colour-primary);
+    }
+
+    &.is-anim {
+      animation: leaves 0.6s ease-in-out infinite alternate;
+    }
+
+    &.is-small {
+      min-width: 184px;
+      height: 48px;
+      font-size: var(--font-size-default);
+
+      @media (--screen-xs-max) {
+        min-width: 160px;
+        height: 40px;
+        font-size: var(--font-size-s);
+      }
+    }
+  }
+</style>

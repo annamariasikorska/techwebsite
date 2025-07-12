@@ -1,0 +1,120 @@
+---
+const { class: className, ...rest } = Astro.props;
+---
+
+<script>
+  import { gsap } from 'gsap';
+  const colourList = ['#21c073', '#002fff', '#f00'];
+  const blobs = document.querySelectorAll('.js-blob');
+  let count = 0;
+
+  function onChange() {
+    const colour = colourList[count];
+    if (blobs && colour) {
+      gsap.to(blobs, { backgroundColor: colour, duration: 10 });
+    }
+
+    if (count === colourList.length - 1) {
+      count = 0;
+    } else {
+      count += 1;
+    }
+  }
+
+  setInterval(onChange, 5000);
+</script>
+
+<div class:list={['blobs', className]} {...rest}>
+  <div class="js-blob blob a">a</div>
+  <div class="js-blob blob b">b</div>
+  <div class="js-blob blob c">c</div>
+</div>
+
+<style lang="postcss">
+  :root {
+    --r: 120px;
+  }
+
+  .blobs {
+    position: absolute;
+    top: 50%;
+    right: 10%;
+    display: block;
+    width: 36%;
+    height: 50%;
+    opacity: 0.75;
+    transform: translateY(-50%);
+
+    /* filter: contrast(30); */
+  }
+
+  .blobs .blob {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #21c073;
+    filter: blur(80px);
+    border-radius: 100%;
+    mix-blend-mode: multiply;
+  }
+
+  .blobs .blob.a {
+    /* stylelint-disable-next-line function-no-unknown */
+    background-color: color(#002fff blend(#fff 30%));
+    animation: circular2 40s linear infinite;
+  }
+
+  .blobs .blob.b {
+    /* stylelint-disable-next-line function-no-unknown */
+    background-color: color(#002fff blend(white 50%));
+    animation: circular 20s linear infinite;
+  }
+
+  .blobs .blob.c {
+    animation: circular 60s linear infinite;
+  }
+
+  @keyframes circular {
+    0% {
+      transform: translate(0, calc(-1 * var(--r)));
+    }
+
+    25% {
+      transform: translate(var(--r), 0);
+    }
+
+    50% {
+      transform: translate(0, var(--r));
+    }
+
+    75% {
+      transform: translate(calc(-1 * var(--r)), 0);
+    }
+
+    100% {
+      transform: translate(0, calc(-1 * var(--r)));
+    }
+  }
+
+  @keyframes circular2 {
+    0% {
+      transform: translate(0, var(--r));
+    }
+
+    25% {
+      transform: translate(calc(-1 * var(--r)), 0);
+    }
+
+    50% {
+      transform: translate(0, calc(-1 * var(--r)));
+    }
+
+    75% {
+      transform: translate(var(--r), 0);
+    }
+
+    100% {
+      transform: translate(0, var(--r));
+    }
+  }
+</style>

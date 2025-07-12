@@ -1,0 +1,11 @@
+export { PlaneGeometry } from 'three/src/geometries/PlaneGeometry.js';
+export { DataTexture } from 'three/src/textures/DataTexture.js';
+export { Texture } from 'three/src/textures/Texture.js';
+export { ShaderMaterial } from 'three/src/materials/ShaderMaterial.js';
+export { Scene } from 'three/src/scenes/Scene.js';
+export { WebGLRenderer } from 'three/src/renderers/WebGLRenderer.js';
+export { PerspectiveCamera } from 'three/src/cameras/PerspectiveCamera.js';
+export { OrthographicCamera } from 'three/src/cameras/OrthographicCamera.js';
+export { Mesh } from 'three/src/objects/Mesh.js';
+export { Vector4 } from 'three/src/math/Vector4.js';
+export * from 'three/src/constants.js';

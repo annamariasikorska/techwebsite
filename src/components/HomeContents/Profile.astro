@@ -1,0 +1,308 @@
+---
+import LeadButton from '@/components/LeadButton.astro';
+import DistortedImage from '@/components/DistortedImage.astro';
+import SelfImage from '@/images/ams.webp';
+---
+
+<section class="c-section profile u-grid">
+  <header class="header">
+    <h2 class="c-section__title" data-splitting="true" data-stagger="0.03">
+      <strong>/</strong> it's me
+    </h2>
+    <h3 class="title" data-animation="fadeLeft">
+      eco digital<br />commerce expert 👍
+    </h3>
+  </header>
+
+  <div class="text" data-animation="fadeUp">
+    <h4 class="name">Anna Maria Sikorska</h4>
+    With over 3 years of brand strategy expertise and 10+ years in the creative field, I&apos;m on a
+    mission to revolutionize digital commerce for businesses that refuse to compromise on their values.
+    I help bold, mindful brands transform sustainability into their competitive edge - delivering innovative
+    strategies, eco-smart solutions, and meaningful communication that drive growth, inspire trust, and
+    redefine success in the digital age.
+    <p class="copy">Let&apos;s build something impactful together</p>
+  </div>
+
+  <div class="button-container">
+    <LeadButton data-animation="fadeUp" data-delay="0.4" data-scroller="#contact">
+      contact
+    </LeadButton>
+  </div>
+
+  <!-- <Image
+    src={SelfImage}
+    alt="self"
+    class="image"
+    data-animation="fadeIn"
+    data-delay="0.4"
+  /> -->
+
+  <div class="image-container">
+    <DistortedImage
+      src={SelfImage.src}
+      width={500}
+      height={700}
+      data-animation="distort"
+      data-delay="0.4"
+    />
+    <div class="echoes">
+      <span class="echoe"></span>
+      <span class="echoe"></span>
+      <span class="echoe"></span>
+      <span class="echoe"></span>
+      <span class="echoe"></span>
+      <span class="echoe"></span>
+    </div>
+  </div>
+
+  <ul class="sub-texts">
+    <li class="sub-text">values</li>
+    <li class="sub-text">innovative vision, growth, expansion</li>
+    <li class="sub-text">collaboration, fairness, and aesthetic excellence</li>
+    <li class="sub-text">aligning with higher ideals while balancing practicality</li>
+    <li class="sub-text">intellectual engagement and adaptability</li>
+    <li class="sub-text">disciplined approach, strong work ethic and long-term planning</li>
+  </ul>
+</section>
+
+<style lang="postcss">
+.profile {
+  border-bottom: none;
+
+  @media (--screen-tb-max) {
+    display: block !important;
+    padding-bottom: 0;
+    overflow: hidden;
+  }
+}
+
+.content {
+  align-items: flex-start;
+}
+
+.header {
+  grid-column: 1 / 5;
+
+  @media (--screen-tb-max) {
+    flex-wrap: wrap;
+    grid-column: 1 / 9;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  @media (--screen-xs-max) {
+    grid-column: 1 / 5;
+  }
+}
+
+.title {
+  margin-top: var(--space-m);
+  font-size: 56px;
+  line-height: 1.2;
+  letter-spacing: calc(1em * 0.03);
+
+  @media (--screen-tb-max) {
+    margin-top: var(--space-m-mobile);
+    margin-bottom: 24px;
+    font-size: 40px;
+  }
+
+  @media (--screen-xs-max) {
+    width: 100%;
+    font-size: 32px;
+  }
+
+  small {
+    display: block;
+    margin-top: -2px;
+  }
+
+  span {
+    margin-left: 0.666em;
+  }
+}
+
+.text {
+  grid-row: 7;
+  grid-column: 1 / 6;
+  align-self: flex-end;
+  margin-top: auto;
+  margin-bottom: 0;
+  font-size: var(--font-size-m);
+
+  @media (--screen-mc-max) {
+    font-size: 18px;
+  }
+
+  @media (--screen-tb-max) {
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 16px;
+  }
+}
+
+.copy {
+  width: calc(100vw - var(--grid-gutter-space-half) * 2);
+  margin-top: 32px;
+  margin-bottom: 24px;
+  font-size: 40px;
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+
+  @media (--screen-mc-max) {
+    font-size: var(--font-size-h1-mobile);
+  }
+
+  @media (--screen-sm-max) {
+    width: auto;
+  }
+
+  @media (--screen-tb-max) {
+    margin-top: 16px;
+    font-size: var(--font-size-h4-mobile);
+  }
+}
+
+.name {
+  margin-bottom: 0.5em;
+  font-weight: var(--font-weight-medium);
+}
+
+.button-container {
+  position: relative;
+  z-index: 2;
+  grid-row: 11;
+  grid-column: 1 / 13;
+
+  @media (--screen-sm-max) {
+    grid-column: 1 / 9;
+  }
+}
+
+.image-container {
+  position: relative;
+  z-index: 1;
+  grid-row: 1 / 13;
+  grid-column: 11 / 13;
+  width: 100%;
+  height: auto;
+
+  @media (--screen-sm-max) {
+    grid-column: 7 / 9;
+  }
+
+  @media (--screen-tb-max) {
+    max-width: 240px;
+    aspect-ratio: 0.85;
+    margin-top: 40px;
+  }
+
+  @media (--screen-xs-max) {
+    max-width: 100%;
+  }
+}
+
+.echoe {
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 0.85;
+  border: 1px solid;
+  opacity: 0.4;
+
+  @media (--screen-xs-max) {
+    display: none;
+  }
+
+  &:first-of-type {
+    top: 2%;
+    left: -4%;
+  }
+
+  &:nth-of-type(2) {
+    top: 4%;
+    left: -8%;
+  }
+
+  &:nth-of-type(3) {
+    top: 6%;
+    left: -12%;
+  }
+
+  &:nth-of-type(4) {
+    top: 8%;
+    left: -16%;
+  }
+
+  &:nth-of-type(5) {
+    top: 10%;
+    left: -20%;
+  }
+
+  &:nth-of-type(6) {
+    top: -1%;
+    left: 2%;
+  }
+}
+
+.sub-texts {
+  grid-row: 7 / 13;
+  grid-column: 10 / 13;
+  width: 100%;
+  height: auto;
+  margin-top: 10vw;
+  margin-left: 40px;
+  font-size: var(--font-size-s);
+
+  @media (--screen-sm-max) {
+    grid-column: 6 / 9;
+    font-size: 12px;
+  }
+
+  @media (--screen-tb-max) {
+    position: absolute;
+    bottom: 8px;
+    z-index: 2;
+    width: auto;
+    padding: var(--grid-gutter-space-half);
+    margin: 0;
+    margin-left: 240px;
+    font-size: 13px;
+  }
+
+  @media (--screen-xs-max) {
+    margin-left: 0;
+    color: #fff;
+  }
+}
+
+.sub-text {
+  margin: 2px 0;
+
+  &:nth-of-type(2) {
+    margin-left: -0.6rem;
+  }
+
+  &:nth-of-type(3) {
+    margin-left: -1.2rem;
+  }
+
+  &:nth-of-type(4) {
+    margin-left: -1.8rem;
+  }
+
+  &:nth-of-type(5) {
+    margin-left: -2.4rem;
+  }
+
+  &:nth-of-type(6) {
+    margin-left: -3rem;
+  }
+
+  @media (--screen-tb-max) {
+    margin-left: 0 !important;
+  }
+}
+</style>

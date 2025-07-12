@@ -1,0 +1,488 @@
+---
+import HeaderLink from './HeaderLink.astro';
+// import BookingButton from './BookingButton.astro';
+import { SITE_TITLE } from '../constants';
+
+interface Props {
+  theme?: 'light' | 'dark';
+}
+
+const { theme } = Astro.props;
+const url = Astro.url;
+---
+
+<script>
+  import { gsap } from 'gsap';
+  import { state, getScreen } from '@/stores/statusStore';
+  // import { debounce } from '@/utils/utils';
+
+  let header = document.querySelector('.js-header');
+  let themeButton = header?.querySelector('.js-themeButton');
+  let menuButton = header?.querySelector('.js-menuButton');
+  let lastScroll = 0;
+  let isAnimating = false;
+  let isRendered = false;
+
+  function setDarkTheme(r: HTMLElement) {
+    r.style.setProperty('--colour-font', '#222');
+    r.style.setProperty('--colour-contrast', 'rgba(255 255 255 / 80%)');
+    r.style.setProperty('--colour-bg', '#212121');
+    r.style.setProperty('--colour-bg-contrast', '#e1e1e1');
+    r.style.setProperty('--colour-primary', '#0F5');
+    r.style.setProperty('--colour-grey', '#aaa');
+    r.style.setProperty('--colour-border', '#efefef');
+    r.style.setProperty('--colour-text-rep', 'rgb(255 255 255 / 40%)');
+    r.style.setProperty('--colour-text-rep-contrast', 'rgb(0 0 0 / 40%)');
+    window.localStorage.setItem('theme', 'dark');
+  }
+
+  function setLightTheme(r: HTMLElement) {
+    r.style.setProperty('--colour-font', 'rgba(255 255 255 / 80%)');
+    r.style.setProperty('--colour-contrast', '#222');
+    r.style.setProperty('--colour-bg', '#e1e1e1');
+    r.style.setProperty('--colour-bg-contrast', '#212121');
+    r.style.setProperty('--colour-primary', '#087021');
+    r.style.setProperty('--colour-grey', '#666');
+    r.style.setProperty('--colour-border', 'rgb(0 0 0 / 70%)');
+    r.style.setProperty('--colour-text-rep', 'rgb(0 0 0 / 40%)');
+    r.style.setProperty('--colour-text-rep-contrast', 'rgb(255 255 255 / 40%)');
+    window.localStorage.setItem('theme', 'light');
+  }
+
+  function initTheme() {
+    const r = document.querySelector<HTMLElement>(':root');
+
+    if (r) {
+      if (state.theme === 'light') {
+        setLightTheme(r);
+      } else {
+        setDarkTheme(r);
+      }
+    }
+  }
+
+  function setTheme() {
+    const r = document.querySelector<HTMLElement>(':root');
+
+    if (r) {
+      if (state.theme === 'dark') {
+        setLightTheme(r);
+      } else {
+        setDarkTheme(r);
+      }
+    }
+
+    state.theme = state.theme === 'dark' ? 'light' : 'dark';
+  }
+
+  async function animate(condition: 'show' | 'hide') {
+    if (!isAnimating) {
+      isAnimating = true;
+      await gsap.to(
+        header,
+        condition === 'hide'
+          ? { autoAlpha: 0, y: -20, duration: 0.2, ease: 'circ.out' }
+          : { autoAlpha: 1, y: 0, duration: 0.2, ease: 'circ.out' },
+      );
+      isAnimating = false;
+    }
+  }
+
+  function onScroll() {
+    const doc = document.documentElement;
+    const st = (window.scrollY || doc.scrollTop) - (doc.clientTop || 0);
+
+    if (state.isMenuVisible) {
+      state.isMenuVisible = false;
+      const navMenu = header?.querySelector<HTMLElement>('.js-navMenu');
+
+      if (navMenu && menuButton) {
+        gsap.to(navMenu, { autoAlpha: 0 });
+        menuButton.classList.remove('is-active');
+      }
+    }
+
+    if (header && !isAnimating) {
+      if (st > lastScroll && state.headerStatus === 'visible') {
+        state.headerStatus = 'hidden';
+        // header.classList.remove('is-top');
+        animate('hide');
+      } else if ((st <= 0 || st < lastScroll) && state.headerStatus === 'hidden') {
+        state.headerStatus = 'visible';
+        animate('show');
+      }
+
+      // if (st === 0) {
+      //   header.classList.add('is-top');
+      // }
+    }
+
+    if (st >= 0) {
+      lastScroll = st;
+    }
+  }
+
+  function handleMobileMenuClick(event: Event) {
+    if (state.screen === 'phone' || state.screen === 'tablet') {
+      const navMenu = header?.querySelector<HTMLElement>('.js-navMenu');
+
+      if (navMenu) {
+        const button = event.currentTarget as HTMLButtonElement;
+
+        if (state.isMenuVisible) {
+          gsap.to(navMenu, { autoAlpha: 0 });
+          button.classList.remove('is-active');
+        } else {
+          gsap.to(navMenu, { autoAlpha: 1 });
+          button.classList.add('is-active');
+        }
+
+        state.isMenuVisible = !state.isMenuVisible;
+      }
+    }
+  }
+
+  function handleResize() {
+    const newScreen = getScreen();
+    state.screen = newScreen;
+  }
+
+  function onPageLoad() {
+    header = document.querySelector('.js-header');
+    themeButton = header?.querySelector<HTMLElement>('.js-themeButton');
+    menuButton = header?.querySelector<HTMLElement>('.js-menuButton');
+    lastScroll = 0;
+    state.headerStatus = 'visible';
+    isAnimating = false;
+
+    if (header && !isRendered) {
+      onScroll();
+      window.addEventListener('scroll', onScroll);
+    }
+
+    if (themeButton) {
+      themeButton.addEventListener('click', setTheme);
+    }
+
+    if (menuButton) {
+      menuButton.addEventListener('click', handleMobileMenuClick);
+    }
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+  }
+
+  function onAfterSwap() {
+    if (header) {
+      window.removeEventListener('scroll', onScroll);
+    }
+
+    if (themeButton) {
+      themeButton.removeEventListener('click', setTheme);
+    }
+
+    if (menuButton) {
+      menuButton.removeEventListener('click', handleMobileMenuClick);
+    }
+
+    window.removeEventListener('resize', handleResize);
+    header = null;
+    menuButton = null;
+    themeButton = null;
+    isRendered = false;
+    initTheme();
+  }
+
+  if (header && !isRendered) {
+    onScroll();
+    window.addEventListener('scroll', onScroll);
+    isRendered = true;
+  }
+
+  initTheme();
+  document.addEventListener('astro:page-load', onPageLoad);
+  document.addEventListener('astro:after-swap', onAfterSwap);
+</script>
+
+<header class:list={['header', 'js-header', { 'is-light': theme === 'light' }]}>
+  <nav class="navigation">
+    <h2 class="title"><a class="title-link" href="/">{SITE_TITLE}</a></h2>
+
+    <div class="inner">
+      <div class="internal-links js-navMenu">
+        <!-- <HeaderLink class="navigation-link" href="/services">Services</HeaderLink> -->
+        {
+          url.pathname === '/' ? (
+            <button class="navigation-button" data-scroller="#services">
+              services
+            </button>
+          ) : (
+            <HeaderLink class="navigation-link" href="/#services">
+              services
+            </HeaderLink>
+          )
+        }
+        <HeaderLink class="navigation-link" href="/articles">articles</HeaderLink>
+        <!-- <HeaderLink class="navigation-link" href="/case-studies">case studies</HeaderLink> -->
+        <button class="navigation-button" data-scroller="#contact">contact</button>
+      </div>
+
+      <div class="button-container">
+        <!-- <BookingButton small /> -->
+
+        <button class="js-themeButton theme-button" type="button" aria-label="change theme">
+          <span></span>
+        </button>
+
+        <button class="js-menuButton menu-button u-tablet u-mobile">
+          <span class="menu-button__inner"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<style>
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    padding: 8px var(--grid-gutter-space-half);
+    margin: 0;
+    color: var(--colour-contrast);
+    background-color: var(--colour-bg);
+    border-bottom: 1px solid var(--colour-contrast);
+
+    @media (--screen-tb-max) {
+      padding: 8px var(--space-xs);
+    }
+
+    &.is-top {
+      background-color: transparent;
+      border-bottom: none !important;
+    }
+
+    &.is-light {
+      color: var(--colour-font);
+
+      &.is-visible {
+        background-color: var(--colour-bg-contrast);
+      }
+    }
+  }
+
+  .title {
+    flex-shrink: 0;
+    margin: 0;
+    font-size: 36px;
+    color: inherit;
+  }
+
+  .title-link {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 4px solid transparent;
+  }
+
+  .title-link,
+  .title-link.active {
+    text-decoration: none;
+  }
+
+  .internal-links {
+    @media (--screen-tb-max) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100dvh;
+      padding: 8px var(--space-s);
+      font-size: 56px;
+      visibility: hidden;
+      background-color: var(--colour-bg);
+    }
+  }
+
+  .navigation {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+
+    @media (--screen-tb-max) {
+      gap: 24px;
+      justify-content: space-between;
+    }
+  }
+
+  .inner {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    margin-left: auto;
+
+    @media (--screen-tb-max) {
+      flex-direction: column;
+      gap: 0;
+      align-items: flex-start;
+      width: 100%;
+    }
+  }
+
+  .navigation-button {
+    background-color: transparent;
+    border: none;
+  }
+
+  .navigation-link,
+  .navigation-button {
+    padding: 4px 6px;
+    margin-right: var(--grid-gutter-space);
+    font-size: var(--font-size-m);
+    font-weight: var(--font-weight-medium);
+    color: inherit;
+    text-decoration: none;
+    letter-spacing: 1px;
+
+    @media (--screen-tb-max) {
+      padding: 0.125rem;
+      margin: 12px 0;
+      font-size: var(--font-size-l);
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .button-container {
+    z-index: 11;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    margin-left: auto;
+
+    @media (--screen-tb-max) {
+      gap: 0;
+    }
+  }
+
+  .theme-button {
+    display: inline-flex;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
+
+    @media (--screen-tb-max) {
+      margin-right: 0;
+      margin-left: 12px;
+    }
+
+    span {
+      position: relative;
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      box-shadow: var(--colour-contrast) 6px -16px 0 0 inset;
+      opacity: 1;
+      transition:
+        box-shadow 0.5s,
+        transform 0.4s 0.1s;
+      transition:
+        transform 0.5s 0.1s,
+        box-shadow 0.2s;
+      transform: scale(0.5) rotate(0deg);
+
+      &::after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 16px;
+        height: 16px;
+        content: '';
+        border: 1px solid var(--colour-contrast);
+        border-radius: 50%;
+        transition: 0.5s;
+        transform: scale(3);
+        transform-origin: center;
+      }
+    }
+  }
+
+  .menu-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 48px;
+    height: 19px;
+    padding: 0 6px;
+    background: none;
+    border: none;
+
+    &.is-active {
+      width: 48px;
+    }
+
+    &__inner {
+      position: relative;
+      display: block;
+      width: 22px;
+      height: 2px;
+      margin-left: auto;
+      background-color: var(--colour-contrast);
+      border-radius: 2px;
+
+      &::before {
+        width: 32px;
+        transform: translateY(-7px);
+      }
+
+      &::after {
+        width: 24px;
+        transform: translateY(7px);
+      }
+
+      &::before,
+      &::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 2px;
+        content: '';
+        background-color: var(--colour-contrast);
+        border-radius: 2px;
+        transition:
+          tranform 0.4s,
+          width 0.4s;
+      }
+
+      .menu-button.is-active & {
+        background-color: transparent;
+
+        &::before,
+        &::after {
+          width: 18px;
+        }
+
+        &::before {
+          transform: rotate(45deg);
+        }
+
+        &::after {
+          transform: rotate(-45deg);
+        }
+      }
+    }
+  }
+</style>

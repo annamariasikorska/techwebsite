@@ -1,0 +1,81 @@
+---
+import Icon from '@/components/Icon.astro';
+
+type Props = {
+  class?: string;
+  icon?: string;
+};
+
+const { class: className, icon } = Astro.props;
+---
+
+<button class:list={[className, 'button']} type="button">
+  <span class="button__inner">
+    <slot />
+  </span>
+
+  {icon && <Icon name={icon} class="button__icon" />}
+</button>
+
+<style>
+  .button {
+    position: relative;
+    display: inline-flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    min-width: 240px;
+    height: 54px;
+    font-weight: 700;
+    line-height: 2.3;
+    color: var(--colour-contrast);
+    background: none;
+
+    /* background-color: var(--colour-primary); */
+    border: 1px solid var(--colour-contrast);
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 0;
+      height: 100%;
+      content: '';
+      background-color: #fff;
+      transition: width 0.4s;
+    }
+
+    &__inner {
+      display: inline-block;
+      padding: 3px 0 0;
+    }
+
+    &__icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      color: var(--colour-contrast);
+      background-color: var(--colour-primary);
+      border-radius: 50%;
+      transition: transform 0.4s;
+    }
+
+    &:hover {
+      color: var(--colour-font);
+
+      &::before {
+        width: 100%;
+      }
+
+      /* stylelint-disable-next-line selector-class-pattern */
+      .button__icon {
+        transform: translateX(4px);
+      }
+
+      /* border: 1px solid var(--colour-contrast); */
+    }
+  }
+</style>

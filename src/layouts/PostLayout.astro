@@ -1,0 +1,374 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { ViewTransitions } from 'astro:transitions';
+import { Image } from 'astro:assets';
+import LeadButton from '@/components/LeadButton.astro';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import ArticleList from '@/components/ArticleList.astro';
+
+type Props = CollectionEntry<'article'>['data'] & {
+  back?: string;
+  slug: string;
+};
+
+const { title, description, publishDate, updatedDate, heroImage, back, tags, slug } = Astro.props;
+
+const allPosts = await getCollection('article');
+
+const excludedTags = ['update', 'blog', 'tutorial', 'news', 'announcement'];
+const finalTags = tags ? tags.filter(tag => !excludedTags.includes(tag)) : [];
+
+const posts = allPosts
+  .filter(
+    (post: CollectionEntry<'article'>) =>
+      post.slug != slug &&
+      post.data.tags &&
+      post.data.tags?.filter(tag => finalTags.includes(tag)).length > 0,
+  )
+  .map((post: CollectionEntry<'article'>) => ({
+    ...post,
+    sameTagCount:
+      (post.data.tags && post.data.tags.filter(tag => finalTags.includes(tag)).length) || 0,
+  }))
+  .sort((a, b) => {
+    if (a.sameTagCount > b.sameTagCount) return -1;
+    if (b.sameTagCount > a.sameTagCount) return 1;
+
+    if (a.data.publishDate > b.data.publishDate) return -1;
+    if (a.data.publishDate < b.data.publishDate) return 1;
+
+    return 0;
+  })
+  .slice(0, 5);
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} />
+    <ViewTransitions />
+
+    <style>
+      .main {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        color: var(--colour-contrast);
+      }
+
+      .inner {
+        display: flex;
+        gap: var(--grid-gutter-space-half);
+        padding: 68px var(--grid-gutter-space-half) 0;
+        margin: auto;
+
+        @media (--screen-tb-max) {
+          display: block;
+        }
+      }
+
+      .info {
+        position: sticky;
+        top: 76px;
+        flex-shrink: 0;
+        width: calc(40% - var(--grid-gutter-space-half));
+        height: 100%;
+        padding-top: 12px;
+
+        @media (--screen-tb-max) {
+          position: relative;
+          top: 0;
+          width: 100%;
+          margin-bottom: 32px;
+        }
+      }
+
+      .title {
+        font-size: 56px;
+        line-height: 1.1;
+
+        @media (--screen-mc-max) {
+          font-size: 48px;
+        }
+
+        @media (--screen-tb-max) {
+          font-size: 40px;
+        }
+      }
+
+      .hero-image {
+        position: relative;
+        width: calc(100% + var(--grid-gutter-space));
+        padding: var(--grid-gutter-space-half);
+        margin-left: calc(var(--grid-gutter-space-half) * -1);
+        text-align: center;
+
+        &::before {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 0;
+          height: 1px;
+          content: '';
+          background-color: var(--colour-border);
+          transition: width 0.4s;
+        }
+
+        &.is-passed {
+          &::before {
+            width: 100%;
+          }
+        }
+      }
+
+      .hero-image img {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        margin: 0 auto;
+        object-fit: cover;
+      }
+
+      .prose {
+        /* width: 720px; */
+        width: var(--layout-width-small);
+        padding: var(--grid-gutter-space-half);
+        padding-top: 12px;
+
+        @media (--screen-tb-max) {
+          width: 100%;
+          padding: 0;
+        }
+
+        &::before {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 1px;
+          height: 0;
+          content: '';
+          background-color: var(--colour-border);
+          transition: height 0.4s;
+
+          @media (--screen-tb-max) {
+            content: none;
+          }
+        }
+
+        &.is-passed {
+          &::before {
+            height: 100%;
+          }
+        }
+      }
+
+      .title h1 {
+        margin: 0 0 0.5em;
+      }
+
+      .date {
+        margin-bottom: 0.5em;
+        font-size: var(--font-size-m);
+        color: var(--colour-grey);
+      }
+
+      .back-button {
+        display: block;
+        width: 120px;
+        margin-bottom: 16px;
+        color: var(--colour-contrast);
+        transition: transform 0.4s;
+
+        &:hover {
+          color: var(--colour-primary);
+          transform: translateX(-4px);
+        }
+
+        svg {
+          width: 100%;
+          height: auto;
+        }
+      }
+
+      .articles {
+        align-items: flex-start;
+        height: auto;
+        min-height: 0;
+        padding: 0;
+        border-top: 1px solid var(--colour-contrast);
+        border-bottom: none;
+
+        @media (--screen-tb-max) {
+          display: block !important;
+        }
+
+        &__title {
+          max-width: 160px;
+          margin-bottom: 0;
+          font-family: var(--font-secondary);
+          font-size: var(--font-size-default);
+          font-weight: var(--font-weight-medium);
+          letter-spacing: calc(var(--font-size-h5) * 0.03);
+        }
+
+        &__header {
+          display: flex;
+          grid-column: 1 / 5;
+          justify-content: space-between;
+          height: 100%;
+          padding: var(--space-xs) var(--grid-gutter-space-half);
+
+          @media (--screen-sm-max) {
+            flex-direction: column;
+            grid-column: 1 / 3;
+          }
+
+          @media (--screen-tb-max) {
+            width: 100%;
+            padding: var(--space-xs) var(--grid-gutter-space-s);
+            border-bottom: 1px solid var(--colour-contrast);
+          }
+        }
+
+        &__button-container {
+          align-self: flex-end;
+        }
+
+        &__content {
+          grid-column: 5 / 13;
+          border-left: 1px solid var(--colour-contrast);
+
+          @media (--screen-sm-max) {
+            grid-column: 3 / 9;
+          }
+
+          @media (--screen-tb-max) {
+            border-left: none;
+          }
+        }
+      }
+    </style>
+    <script>
+      class CustomScript extends HTMLElement {
+        constructor() {
+          super();
+          this.init();
+        }
+
+        backButton = this.querySelector('.js-back-button');
+
+        onBackButtonClick(event: Event) {
+          if (history.length > 1) {
+            console.log('history', history);
+            event.preventDefault();
+            history.back();
+          }
+        }
+
+        init() {
+          if (this.backButton) {
+            this.backButton.addEventListener('click', this.onBackButtonClick);
+          }
+        }
+      }
+
+      customElements.define('post-element', CustomScript);
+    </script>
+  </head>
+
+  <body>
+    <Header />
+    <post-element class="main js-view">
+      <article class="inner">
+        <section class="info" data-animation="fadeLeft">
+          {
+            back && (
+              <div class="back-button-container">
+                <a class="back-button js-back-button" href={back} aria-label="Back">
+                  <svg
+                    width="362px"
+                    height="83px"
+                    viewBox="0 0 362 83"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                  >
+                    <title>Group</title>
+                    <g stroke="none" fill="none" fill-rule="evenodd" stroke-linecap="square">
+                      <g stroke="currentColor">
+                        <line
+                          x1="1.96317153"
+                          y1="77.806031"
+                          x2="356.963172"
+                          y2="77.806031"
+                          id="Line"
+                          stroke-width="4"
+                        />
+                        <line
+                          x1="-13.7159396"
+                          y1="38.9502788"
+                          x2="106.28406"
+                          y2="38.9502788"
+                          id="Line-2"
+                          stroke-width="2"
+                          transform="translate(46.2841, 38.9503) rotate(-40) translate(-46.2841, -38.9503)"
+                        />
+                      </g>
+                    </g>
+                  </svg>
+                </a>
+              </div>
+            )
+          }
+          <h1 class="title js-split-text" data-splitting="true">{title}</h1>
+
+          <div class="date">
+            <FormattedDate date={publishDate} />
+            {
+              updatedDate && (
+                <div class="last-updated-on">
+                  Last updated on <FormattedDate date={updatedDate} />
+                </div>
+              )
+            }
+          </div>
+          {
+            heroImage && (
+              <div class="hero-image" data-animation="fadeIn">
+                <Image width={500} height={510} src={heroImage} alt="hero" loading="lazy" />
+              </div>
+            )
+          }
+        </section>
+        <section class="prose" data-animation="fadeUp" data-delay="0.2">
+          <div class="markdown">
+            <slot />
+          </div>
+        </section>
+      </article>
+
+      {
+        !!posts?.length && (
+          <section class="articles u-grid">
+            <header class="articles__header">
+              <h2 class="articles__title">
+                <strong>/</strong> other articles
+              </h2>
+
+              <div class="articles__button-container">
+                <LeadButton href="/articles">View all</LeadButton>
+              </div>
+            </header>
+
+            <div class="articles__content">
+              <ArticleList posts={posts} variant="small" />
+            </div>
+          </section>
+        )
+      }
+    </post-element>
+    <Footer />
+  </body>
+</html>

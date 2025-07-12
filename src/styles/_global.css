@@ -1,0 +1,357 @@
+/*
+  The CSS in this style tag is based off of Bear Blog's default CSS.
+  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
+  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
+ */
+
+/* @font-face {
+	font-family: Akkurat;
+	font-style: normal;
+	font-weight: 400;
+	src: url('/fonts/Akkurat-Regular.woff') format('woff');
+	font-display: swap;
+} */
+
+@font-face {
+	font-family: OverusedGrotesk;
+	font-style: normal;
+	font-weight: 400;
+	src: url('/fonts/OverusedGrotesk/OverusedGrotesk-Roman.woff2') format('woff2');
+	font-display: swap;
+}
+
+@font-face {
+	font-family: OverusedGrotesk;
+	font-style: normal;
+	font-weight: 500;
+	src: url('/fonts/OverusedGrotesk/OverusedGrotesk-Medium.woff2') format('woff2');
+	font-display: swap;
+}
+
+/* @font-face {
+	font-family: OverusedGrotesk;
+	font-style: normal;
+	font-weight: 600;
+	src: url('/fonts/OverusedGrotesk/OverusedGrotesk-SemiBold.woff2') format('woff2');
+	font-display: swap;
+} */
+
+/* stylelint-disable */
+* {
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  box-sizing: border-box;
+}
+/* stylelint-enable */
+
+html {
+  overflow-x: hidden;
+  font-size: var(--font-size-default);
+
+  @media (--screen-mc-max) {
+    font-size: var(--font-size-default-mobile);
+  }
+}
+
+body {
+  font-family: var(--font-primary);
+  font-size: 100%;
+  font-weight: var(--font-weight-roman);
+  line-height: 1.333;
+  color: var(--colour-font);
+  background-color: var(--colour-bg);
+}
+
+button,
+input,
+select,
+textarea {
+  color: var(--colour-font);
+}
+
+input,
+select,
+textarea {
+  /* cursor: none !important; */
+  margin: 0;
+}
+
+button {
+  cursor: pointer;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  padding: 0;
+  margin: 1em 0;
+  border: 0;
+  border-top: 1px solid var(--colour-border);
+}
+
+p {
+  margin-top: 0;
+}
+
+a {
+  color: var(--colour-font);
+  text-decoration: none;
+
+  body.is-dark & {
+    color: var(--colour-primary);
+  }
+}
+
+audio,
+canvas,
+img,
+video {
+  vertical-align: middle;
+}
+
+fieldset {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+textarea {
+  resize: vertical;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+@custom-selector :--heading h1, h2, h3, h4, h5, h6;
+@custom-selector :--button button, .button;
+@custom-selector :--enter :hover, :focus;
+
+:--heading {
+  position: relative;
+  margin-top: 0;
+
+  /* font-family: var(--font-primary); */
+
+  font-family: var(--font-secondary);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.2;
+}
+
+h1 {
+  margin-bottom: var(--space-s);
+  font-size: var(--font-size-h1);
+  line-height: 1.25;
+
+  @media (--screen-mc-max) {
+    font-size: var(--font-size-h1-mobile);
+  }
+}
+
+h2 {
+  margin-bottom: 12px;
+  font-size: var(--font-size-h2);
+
+  /* font-style: italic; */
+  line-height: 1.4;
+
+  @media (--screen-mc-max) {
+    font-size: var(--font-size-h2-mobile);
+    line-height: 1.4;
+  }
+}
+
+h3 {
+  margin-bottom: 30px;
+  font-size: var(--font-size-h3);
+  letter-spacing: calc(var(--font-size-h3) * 0.03);
+
+  @media (--screen-mc-max) {
+    font-size: var(--font-size-h3-mobile);
+  }
+
+  /* @media (--screen-xs-max) {
+    font-size: var(--font-size-h3-mobile);
+  } */
+}
+
+h4 {
+  font-size: var(--font-size-h4);
+
+  @media (--screen-mc-max) {
+    font-size: var(--font-size-h4-mobile);
+  }
+}
+
+h5 {
+  margin-bottom: 0.4em;
+  font-size: var(--font-size-h5);
+
+  @media (--screen-mc-max) {
+    font-size: var(--font-size-h5-mobile);
+  }
+}
+
+h6 {
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: var(--font-weight-roman);
+  color: var(--colour-grey);
+  text-transform: uppercase;
+}
+
+.browsehappy {
+  padding: 0.2em 0;
+  margin: 0.2em 0;
+  color: #000;
+  background: #ccc;
+}
+
+.svg {
+  width: 100%;
+  height: 100%;
+}
+
+.sr-only {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+
+	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
+	clip: rect(1px 1px 1px 1px);
+
+	/* maybe deprecated but we need to support legacy browsers */
+	clip: rect(1px, 1px, 1px, 1px);
+
+	/* modern browsers, clip-path works inwards from each corner */
+	clip-path: inset(50%);
+
+	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
+	white-space: nowrap;
+	border: 0;
+}
+
+.astro-code {
+	padding: 8px 4px;
+}
+
+.char {
+  opacity: 0;
+}
+
+[data-animation] {
+  opacity: 0;
+
+  .is-mobile & {
+    opacity: 1;
+  }
+
+  @media (--screen-tb-max) {
+    opacity: 1;
+  }
+}
+
+.markdown {
+  /* stylelint-disable-next-line no-descending-specificity */
+  a {
+    color: var(--colour-contrast);
+    text-decoration: underline;
+
+    &:hover {
+      color: var(--colour-primary);
+      text-decoration: none;
+    }
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  h2 {
+    margin-bottom: 24px;
+  }
+
+  h3 {
+    margin-bottom: 1rem;
+  }
+
+  @media (--screen-tb-max) {
+    font-size: 18px;
+  }
+}
+
+.text-scroll-fx-text {
+  display: grid;
+  margin: 0;
+  font-weight: var(--font-weight-medium);
+  text-align: center;
+  cursor: default;
+  -webkit-touch-callout: none;
+  user-select: none;
+  
+  @media (width <= 640px) {
+    font-size: 18vw;
+  }
+
+  --color-rep-bg: transparent;
+  --color-rep-text-main: var(--colour-contrast);
+  --color-rep-text: var(--colour-contrast);
+  --color-rep-outline: var(--colour-text-rep);
+  
+  &--contrast {
+    --color-rep-text-main: var(--colour-font);
+    --color-rep-text: var(--colour-font);
+    --color-rep-outline: var(--colour-text-rep-contrast);
+  }
+}
+
+/* .text-rep {
+} */
+
+.text-rep span {
+  grid-area: 1 / 1 / 2 / 2;
+  padding-bottom: 0;
+  line-height: 1.2;
+  color: var(--color-rep-text-main);
+  background: var(--color-rep-bg);
+  will-change: transform;
+}
+
+.text-rep span:not(:last-child) {
+  -webkit-text-stroke: 1px var(--color-rep-outline);
+	/* stylelint-disable-next-line property-no-unknown */
+	text-stroke: 1px var(--color-rep-outline);
+	-webkit-text-fill-color: transparent;
+  /* stylelint-disable-next-line property-no-unknown */
+	text-fill-color: transparent;
+	color: transparent;
+}
+
+::selection {
+  color: var(--colour-font);
+  text-shadow: none;
+  background: var(--colour-primary);
+}
+
+::-webkit-selection {
+  color: var(--colour-font);
+  text-shadow: none;
+  background: var(--colour-primary);
+}
+
+::placeholder {
+  font-weight: inherit;
+  color: var(--colour-grey);
+}
+
+main-element,
+post-element,
+base-element {
+  display: block;
+}

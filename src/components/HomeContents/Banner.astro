@@ -1,0 +1,38 @@
+---
+const { class: className, repeat, ...rest } = Astro.props;
+---
+
+<section class:list={['c-section', 'banner', className]} {...rest}>
+  <h2 class="text-scroll-fx-text title" data-repeat={repeat} data-text-rep>
+    <slot />
+  </h2>
+</section>
+
+<style lang="postcss">
+.banner {
+  position: unset;
+  align-items: center;
+  justify-content: center;
+  height: 320px;
+  min-height: 0;
+  overflow: hidden;
+  text-align: center;
+  white-space: nowrap;
+
+  @media (--screen-sm-max) {
+    height: 240px;
+  }
+
+  @media (--screen-tb-max) {
+    height: 120px;
+  }
+}
+
+.title {
+  font-size: 13vw;
+
+  @media (--screen-tb-max) {
+    font-size: 22vw;
+  }
+}
+</style>

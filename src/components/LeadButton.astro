@@ -1,0 +1,95 @@
+---
+type Props = {
+  class?: string;
+  href?: string;
+};
+
+const { class: className, ...props } = Astro.props;
+const Element = props.href ? 'a' : 'button';
+---
+
+<Element class:list={[className, 'lead-button']} type="button" {...props}>
+  <span class="lead-button__inner">
+    <slot />
+  </span>
+
+  <i class="lead-button__icon">
+    <svg width="65" height="18" viewBox="0 0 65 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M64 17.7059H0V16.7059H64V17.7059Z"
+        fill="currentColor"></path>
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M47.2941 0L64.2788 16.9847L63.5717 17.6918L46.587 0.707107L47.2941 0Z"
+        fill="currentColor"></path>
+    </svg>
+  </i>
+</Element>
+
+<style>
+  .lead-button {
+    position: relative;
+    display: inline-flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-family: var(--font-secondary);
+    font-size: 18px;
+    font-weight: var(--font-weight-medium);
+
+    /* font-style: italic; */
+    line-height: 1.1;
+    color: inherit;
+    text-align: left;
+    letter-spacing: 1.6px;
+    background: none;
+    border: none;
+
+    @media (--screen-mc-max) {
+      font-size: var(--font-size-default-mobile);
+    }
+
+    @media (--screen-xs-max) {
+      font-size: var(--font-size-m-mobile);
+    }
+
+    &__inner {
+      display: inline-block;
+      width: 100%;
+      padding: 3px 0 0;
+    }
+
+    &__icon {
+      flex-shrink: 0;
+      transition: transform 0.4s;
+
+      @media (--screen-xs-max) {
+        width: 40px;
+      }
+
+      svg {
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    &:hover {
+      color: var(--colour-primary);
+
+      &::before {
+        width: 100%;
+      }
+
+      /* stylelint-disable-next-line selector-class-pattern */
+      .lead-button__icon {
+        transform: translateX(4px);
+      }
+
+      /* border: 1px solid var(--colour-contrast); */
+    }
+  }
+</style>

@@ -1,0 +1,199 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import BaseHead from '@/components/BaseHead.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+// import BookingButton from '@/components/BookingButton.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '@/constants';
+import '@/styles/_home.css';
+import Hero from '@/components/HomeContents/Hero.astro';
+import Intro from '@/components/HomeContents/Intro.astro';
+import Profile from '@/components/HomeContents/Profile.astro';
+import Services from '@/components/HomeContents/Services.astro';
+import Questions from '@/components/HomeContents/Questions.astro';
+import Articles from '@/components/HomeContents/Articles.astro';
+import Banner from '@/components/HomeContents/Banner.astro';
+
+// import HeroImage from '@/images/sun.svg';
+// import BlobImage from '@/images/blob.png';
+
+export const prerender = false;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <ViewTransitions />
+    <script>
+      import { gsap } from 'gsap';
+      // import { state } from '@/stores/homeStore';
+      import RepeatTextScrollFx from '@/animations/repeatTextScrollAnimation';
+      import { browserDetect } from '@/utils/utils';
+
+      class HomeScript extends HTMLElement {
+        timeout: number | NodeJS.Timeout | null = null;
+        mouseMoveCount = 0;
+        mouseMoveDirection = 0;
+        textFxs: InstanceType<typeof RepeatTextScrollFx>[] = [];
+        distortMap = this.querySelector('feDisplacementMap');
+        turbulence = this.querySelector('feTurbulence');
+        textReps = this.querySelectorAll<HTMLElement>('[data-text-rep]');
+
+        constructor() {
+          super();
+          this.init();
+        }
+
+        distortMapAnimation() {
+          if (this.distortMap) {
+            gsap.killTweensOf(this.distortMap.scale, { baseVal: true });
+            gsap.to(this.distortMap.scale, {
+              baseVal: 0,
+              // ease: 'circ.inOut',
+              duration: 10,
+              yoyo: true,
+              repeat: -1,
+            });
+          }
+        }
+
+        distortAnimationInitMobile() {
+          const image = this.querySelector('image');
+
+          if (image) {
+            gsap.set(image, { opacity: 1 });
+          }
+        }
+
+        onMouseMove = () => {
+          if (this.distortMap && this.turbulence) {
+            if (this.mouseMoveDirection === 0) {
+              if (this.mouseMoveCount < 150) {
+                this.mouseMoveCount += 1;
+              } else {
+                this.mouseMoveDirection = 1;
+              }
+            } else {
+              if (this.mouseMoveCount === -150) {
+                this.mouseMoveDirection = 0;
+              } else {
+                this.mouseMoveCount -= 1;
+              }
+            }
+
+            if (this.distortMap && this.turbulence) {
+              gsap.killTweensOf(this.distortMap.scale, { baseVal: true });
+              gsap.killTweensOf(this.turbulence.seed, { baseVal: true });
+
+              gsap.set(this.distortMap.scale, {
+                baseVal: this.mouseMoveCount / 5,
+                ease: 'circ.inOut',
+              });
+
+              gsap.set(this.turbulence.seed, {
+                baseVal: 2 - this.mouseMoveCount / -50000,
+                ease: 'circ.inOut',
+              });
+            }
+
+            const mouseStopped = () => {
+              this.distortMapAnimation();
+            };
+
+            if (this.timeout) {
+              clearTimeout(this.timeout);
+            }
+
+            this.timeout = setTimeout(mouseStopped, 4000);
+          }
+        };
+
+        disconnectedCallback() {
+          console.log('*** home unmount');
+          if (this.timeout) {
+            clearTimeout(this.timeout);
+            this.timeout = null;
+          }
+
+          if (this.textFxs.length) {
+            for (let index = 0; index < this.textFxs.length; index++) {
+              const fx = this.textFxs[index];
+              fx.destroy();
+            }
+          }
+
+          this.mouseMoveCount = 0;
+          this.mouseMoveDirection = 0;
+          this.distortMap = null;
+          this.turbulence = null;
+          document.removeEventListener('mousemove', this.onMouseMove);
+        }
+
+        init() {
+          console.log('*** home init');
+          // const canvasContainer = document.getElementById('js-canvasContainer');
+          this.textFxs = [];
+          this.mouseMoveCount = 0;
+          this.mouseMoveDirection = 0;
+
+          for (let index = 0; index < this.textReps.length; index++) {
+            const element = this.textReps[index];
+            const repeat = element.dataset.repeat;
+            const options = { numberOfRepeat: repeat ? Number(repeat) : undefined };
+            const fx = new RepeatTextScrollFx(element, options);
+            this.textFxs.push(fx);
+            fx.init();
+          }
+
+          if (browserDetect().mobile) {
+            this.distortAnimationInitMobile();
+          }
+
+          document.addEventListener('mousemove', this.onMouseMove);
+        }
+      }
+
+      customElements.define('main-element', HomeScript);
+    </script>
+  </head>
+  <body>
+    <Header theme="dark" />
+
+    <main-element class="main js-view">
+      <Hero />
+      <Intro />
+      <Banner>
+        &#8600;&#8600;&#8600;&#8600;&#8600;&#8600;&#8600;&#8600;&#8600;&#8600;&#8600;&#8600;&#8600;&#8600;&#8600;&#8600;&#8600;&#8600;&#8600;&#8600;&#8600;&#8600;&#8600;&#8600;&#8600;&#8600;
+      </Banner>
+      <Profile />
+      <Services />
+      <Articles />
+      <Banner class="large-banner" repeat={20}> eco digital eco digital eco digital </Banner>
+      <Questions />
+    </main-element>
+
+    <Footer />
+  </body>
+</html>
+
+<style lang="postcss">
+  .main {
+    position: relative;
+    min-height: 100dvh;
+    padding-top: 64px;
+    color: var(--colour-contrast);
+  }
+
+  .large-banner {
+    height: 560px;
+
+    @media (--screen-sm-max) {
+      height: 400px;
+    }
+
+    @media (--screen-tb-max) {
+      height: 280px;
+    }
+  }
+</style>

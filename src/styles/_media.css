@@ -1,0 +1,13 @@
+/* SCREENS */
+@custom-media --screen-xs-max (max-width: 480px);  /* Extra small screen / phone */
+@custom-media --screen-tb-max (max-width: 720px);  /* Small screen / tablet vertical */
+@custom-media --screen-sm-max (max-width: 992px);  /* Small screen / tablet */
+@custom-media --screen-md-max (max-width: 1280px);  /* Medium screen / desktop */
+@custom-media --screen-mc-max (max-width: 1440px);  /* Macbook screen / desktop */
+@custom-media --screen-lg-max (max-width: 1920px); /* Large screen / wide desktop */
+@custom-media --screen-xs-min (min-width: 480px);  /* Extra small screen / phone */
+@custom-media --screen-tb-min (min-width: 640px);  /* Small screen / tablet vertical */
+@custom-media --screen-sm-min (min-width: 992px);  /* Small screen / tablet */
+@custom-media --screen-md-min (min-width: 1280px);  /* Medium screen / desktop */
+@custom-media --screen-mc-min (min-width: 1440px);  /* Macbook screen / desktop */
+@custom-media --screen-lg-min (min-width: 1920px); /* Large screen / wide desktop */

@@ -1,0 +1,84 @@
+:root {
+	/* FONT FAMILY */
+	--font-primary: "OverusedGrotesk", "Helvetica Neue","HelveticaNeue","Helvetica","Arial","Lucida Grande",sans-serif;
+  --font-secondary: "OverusedGrotesk", "Helvetica Neue","HelveticaNeue","Helvetica","Arial","Lucida Grande",sans-serif;
+
+	/* FONT SIZE */
+	--font-size-default: 18px;
+  --font-size-default-mobile: 16px;
+	--font-size-h1: 44px;
+  --font-size-h1-mobile: 36px;
+	--font-size-h2: 36px;
+  --font-size-h2-mobile: 28px;
+	--font-size-h3: 28px;
+  --font-size-h3-mobile: 24px;
+	--font-size-h4: 24px;
+  --font-size-h4-mobile: 20px;
+	--font-size-h5: 20px;
+  --font-size-h5-mobile: 16px;
+  --font-size-xl: 32px;
+  --font-size-xl-mobile: 28px;
+  --font-size-l: 24px;
+  --font-size-l-mobile: 20px;
+  --font-size-m: 20px;
+  --font-size-m-mobile: 16px;
+  --font-size-s: 14px;
+  --font-size-s-mobile: 12px;
+  --font-size-xs: 12px;
+
+	/* FONT WEIGHT */
+  --font-weight-roman: 400;
+	--font-weight-medium: 500;
+	--font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+	/* COLOURS */
+	--colour-font: #222;
+	--colour-bg: #212121;
+	--colour-border: #efefef;
+  --colour-text-rep: rgb(255 255 255 / 40%);
+  --colour-text-rep-contrast: rgb(0 0 0 / 40%);
+	--colour-primary: #0F5;
+  --colour-grey: #aaa;
+  --colour-contrast: #D9D9D9;
+
+  /* --colour-contrast: rgb(244 255 221 / 80%); */
+  --colour-bg-contrast: #e1e1e1;
+
+	/* LAYOUT */
+	--grid-width: 122px;
+  --grid-margin: 48px;
+  --grid-margin-s: 24px;
+  --grid-margin-xs: 16px;
+  --grid-gutter-space: 24px;
+  --grid-gutter-space-half: 12px;
+  --grid-gutter-space-s: 16px;
+  --layout-width: 1320px;
+  --layout-width-small: 980px;
+  --layout-max-width: 1640px;
+  --layout-min-width: 750px;
+  --layout-sidebar-width: 272px;
+  --layout-header-height: 60px;
+
+	/* SPACES */
+  --space-l: 48px;
+  --space-m: 24px;
+  --space-m-mobile: 16px;
+  --space-s: 16px;
+  --space-s-mobile: 12px;
+  --space-xs: 12px;
+  --space-text-s: 8px;
+  --space-content-xl: 64px;
+  --space-content-l: 48px;
+  --space-content-m: 32px;
+  --space-content-s: 24px;
+  --space-content-xs: 16px;
+
+	/* OTHERS */
+	--gray: 96, 115, 159;
+	--gray-light: 229, 233, 240;
+	--gray-dark: 34, 41, 57;
+	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
+	--box-shadow: 0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
+		0 16px 32px rgba(var(--gray), 33%);
+}
