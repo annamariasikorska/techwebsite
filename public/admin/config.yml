@@ -7,7 +7,7 @@ backend:
   branch: main
   repo: annamariasikorska/edce
   site_domain: edce.space
-  base_url: https://edce.space
+  base_url: https://edce.spac
   auth_endpoint: oauth
   automatic_deployments: true
 media_folder: "src/assets/images"
