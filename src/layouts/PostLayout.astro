@@ -7,28 +7,29 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
-import ArticleList from '@/components/ArticleList.astro';
+import PostList from '@/components/PostList.astro';
 
-type Props = CollectionEntry<'article'>['data'] & {
+type Props = CollectionEntry<'article' | 'project'>['data'] & {
   back?: string;
   slug: string;
+  type: 'article' | 'project';
 };
 
 const { title, description, publishDate, updatedDate, heroImage, back, tags, slug } = Astro.props;
-
-const allPosts = await getCollection('article');
+const type = Astro.props.type;
+const allPosts = await getCollection(type);
 
 const excludedTags = ['update', 'blog', 'tutorial', 'news', 'announcement'];
 const finalTags = tags ? tags.filter(tag => !excludedTags.includes(tag)) : [];
 
 const posts = allPosts
   .filter(
-    (post: CollectionEntry<'article'>) =>
+    (post: CollectionEntry<'article' | 'project'>) =>
       post.slug != slug &&
       post.data.tags &&
       post.data.tags?.filter(tag => finalTags.includes(tag)).length > 0,
   )
-  .map((post: CollectionEntry<'article'>) => ({
+  .map((post: CollectionEntry<'article' | 'project'>) => ({
     ...post,
     sameTagCount:
       (post.data.tags && post.data.tags.filter(tag => finalTags.includes(tag)).length) || 0,
@@ -351,19 +352,19 @@ const posts = allPosts
 
       {
         !!posts?.length && (
-          <section class="articles u-grid">
-            <header class="articles__header">
-              <h2 class="articles__title">
-                <strong>/</strong> other articles
+          <section class="posts u-grid">
+            <header class="posts__header">
+              <h2 class="posts__title">
+                <strong>/</strong> other {type}
               </h2>
 
-              <div class="articles__button-container">
-                <LeadButton href="/articles">View all</LeadButton>
+              <div class="posts__button-container">
+                <LeadButton href={`/${type}`}>View all</LeadButton>
               </div>
             </header>
 
-            <div class="articles__content">
-              <ArticleList posts={posts} variant="small" />
+            <div class="posts__content">
+              <PostList posts={posts} variant="small" type={type === 'article' ? 'articles' : 'projects'} />
             </div>
           </section>
         )

@@ -1,6 +1,7 @@
 ---
 // import BookingButton from '@/components/BookingButton.astro';
 // import LeadButton from '@/components/LeadButton.astro';
+import { SITE_TITLE } from "@/constants";
 
 const today = new Date();
 ---
@@ -113,7 +114,7 @@ const today = new Date();
 
 <footer class="footer js-footer" id="contact">
   <div class="inner u-grid">
-    <h3 class="title" data-splitting="true" data-stagger="0.03">edce</h3>
+    <h3 class="title" data-splitting="true" data-stagger="0.03">{SITE_TITLE}</h3>
 
     <div class="contact">
       <p class="contact-label" class="u-mb-text-s">drop me a message</p>
@@ -183,7 +184,7 @@ const today = new Date();
       </p>
     </div>
     <p class="copyright">
-      &copy; {today.getFullYear()} edce. All rights reserved.
+      &copy; {today.getFullYear()} anna maria sikorska. All rights reserved.
     </p>
   </div>
 </footer>

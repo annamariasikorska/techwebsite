@@ -213,23 +213,21 @@ const url = Astro.url;
         <!-- <HeaderLink class="navigation-link" href="/services">Services</HeaderLink> -->
         {
           url.pathname === '/' ? (
-            <button class="navigation-button" data-scroller="#services">
-              services
+            <button class="navigation-button" data-scroller="#skills">
+              skills
             </button>
           ) : (
-            <HeaderLink class="navigation-link" href="/#services">
-              services
+            <HeaderLink class="navigation-link" href="/#skills">
+              skills
             </HeaderLink>
           )
         }
+        <HeaderLink class="navigation-link" href="/projects">projects</HeaderLink>
         <HeaderLink class="navigation-link" href="/articles">articles</HeaderLink>
-        <!-- <HeaderLink class="navigation-link" href="/case-studies">case studies</HeaderLink> -->
         <button class="navigation-button" data-scroller="#contact">contact</button>
       </div>
 
       <div class="button-container">
-        <!-- <BookingButton small /> -->
-
         <button class="js-themeButton theme-button" type="button" aria-label="change theme">
           <span></span>
         </button>

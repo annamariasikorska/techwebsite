@@ -5,16 +5,16 @@ backend:
   # name: test-repo
   # branch: main
   branch: main
-  repo: annamariasikorska/edce
+  repo: annamariasikorska/techwebsite
   site_domain: edce.space
   base_url: https://edce.spac
   auth_endpoint: oauth
   automatic_deployments: true
 media_folder: "src/assets/images"
 collections:
-  - name: "article" # Used in routes, e.g., /admin/collections/blog
-    label: "Article" # Used in the UI
-    folder: "src/content/article" # The path to the folder where the documents are stored
+  - name: "project" # Used in routes, e.g., /admin/collections/blog
+    label: "Project" # Used in the UI
+    folder: "src/content/project" # The path to the folder where the documents are stored
     create: true # Allow users to create new documents in this collection
     fields: # The fields for each document, usually in frontmatter
       - { label: "Layout", name: "layout", widget: "hidden", default: "blog" }

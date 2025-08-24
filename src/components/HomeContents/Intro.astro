@@ -3,7 +3,7 @@ import LeadButton from '@/components/LeadButton.astro';
 ---
 
 <section class="c-section intro u-grid">
-  <article class="article-what">
+  <project class="project-what">
     <header class="c-section__header">
       <h2 class="c-section__title" data-splitting="true" data-stagger="0.03">
         <strong>/</strong> Why am I doing it?
@@ -17,13 +17,13 @@ import LeadButton from '@/components/LeadButton.astro';
     </div>
 
     <div class="button-container" data-animation="fadeUp">
-      <LeadButton href="/articles/sustainable-digital-commerce-manifesto/">
-        Read my recent article about my <br />menstrual cycle tracker
+      <LeadButton href="/projects/sustainable-digital-commerce-manifesto/">
+        Read my recent project about my <br />menstrual cycle tracker
       </LeadButton>
     </div>
-  </article>
+  </project>
 
-  <article class="article-why" data-animation="fadeIn">
+  <project class="project-why" data-animation="fadeIn">
     <header class="c-section__header">
       <h2 class="c-section__title" data-splitting="true" data-stagger="0.03">
         <strong>/</strong> my current focus?
@@ -46,7 +46,7 @@ import LeadButton from '@/components/LeadButton.astro';
         Linux
       </div>
     </div>
-  </article>
+  </project>
 </section>
 
 <style lang="postcss">
@@ -149,7 +149,7 @@ import LeadButton from '@/components/LeadButton.astro';
   }
 }
 
-.article-what {
+.project-what {
   display: flex;
   flex-direction: column;
   grid-column: 1 / 5;
@@ -159,7 +159,7 @@ import LeadButton from '@/components/LeadButton.astro';
   }
 }
 
-.article-why {
+.project-why {
   position: relative;
   grid-column: 7 / 12;
   padding-bottom: 16px;

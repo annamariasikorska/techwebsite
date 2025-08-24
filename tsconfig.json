@@ -8,6 +8,9 @@
       "@/*": ["src/*"]
 		}
   },
+  "exclude": [
+    "dist"
+  ],
   "include": [
     "src/**/*.d.ts",
     "src/**/*.ts",

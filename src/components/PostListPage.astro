@@ -1,0 +1,160 @@
+---
+import { getCollection } from 'astro:content';
+import { ViewTransitions } from 'astro:transitions';
+import BaseHead from '@/components/BaseHead.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '@/constants';
+import FormattedDate from '@/components/FormattedDate.astro';
+
+type Props = {
+  type: 'article' | 'project';
+}
+
+export const prerender = true;
+const type = Astro.props.type;
+const posts = (await getCollection(type)).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
+);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <ViewTransitions />
+    <style>
+      .main {
+        padding: 64px 0 0;
+      }
+
+      .inner {
+        margin: auto;
+      }
+
+      .post-list {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+      }
+
+      .post-item-title {
+        flex-shrink: 0;
+        grid-column: 1 /13;
+        margin: 0;
+        font-size: 72px;
+        line-height: 1;
+        color: var(--colour-contrast);
+
+        @media (--screen-mc-max) {
+          font-size: 56px;
+        }
+
+        @media (--screen-tb-max) {
+          font-size: 32px;
+        }
+      }
+
+      .post-item-info-head {
+        margin-bottom: 4px;
+        font-size: 14px;
+        font-weight: var(--font-weight-roman);
+        color: var(--colour-grey);
+        text-transform: uppercase;
+      }
+
+      .post-item-date {
+        flex-shrink: 0;
+        grid-column: 1 / 3;
+        margin: 0;
+        margin-top: 8px;
+
+        @media (--screen-tb-max) {
+          font-size: var(--font-size-m);
+        }
+
+        @media (--screen-mc-max) {
+          font-size: var(--font-size-m-mobile);
+        }
+      }
+
+      .post-item-summary {
+        grid-column: 3 / 13;
+        margin-top: 8px;
+        font-size: var(--font-size-m);
+
+        @media (--screen-mc-max) {
+          font-size: var(--font-size-m-mobile);
+        }
+      }
+
+      .post-item-link {
+        padding: var(--space-s) var(--grid-gutter-space-half) var(--space-xs);
+        color: var(--colour-contrast);
+
+        @media (--screen-tb-max) {
+          display: block !important;
+          padding: var(--space-m) var(--space-xs);
+        }
+
+        &:hover {
+          color: var(--colour-font);
+          background-color: var(--colour-bg-contrast);
+
+          .post-item-title,
+          .post-item-info-head {
+            color: rgb(var(--accent));
+          }
+        }
+      }
+
+      .post-item {
+        width: 100%;
+        max-width: 100%;
+        border-bottom: 1px solid var(--colour-contrast);
+
+        &:last-of-type {
+          border-bottom: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main class="main js-view">
+      <section class="inner">
+        <ul class="post-list">
+          {
+            posts.map((post, index) => (
+              <li class="post-item">
+                <a
+                  class="post-item-link u-grid"
+                  href={`/${type}s/${post.slug}/`}
+                  data-animation="fadeUp"
+                  data-delay={index < 4 ? 0.2 * index : 0}
+                >
+                  <h2 class="post-item-title">{post.data.title}</h2>
+
+                  <div class="post-item-date">
+                    <p class="post-item-info-head">/ Date</p>
+                    <FormattedDate date={post.data.publishDate} />
+                  </div>
+
+                  {post.data.description && (
+                    <div class="post-item-summary">
+                      <p class="post-item-info-head">/ Summary</p>
+                      {post.data.description}
+                    </div>
+                  )}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
